@@ -5,66 +5,66 @@
 #define BUFFER_ERROR -1
 #define INVALID_INPUT -2
 #define ARRAY_SIZE 9
+#define TRUE 1
+#define FALSE 0
 
-int array[ARRAY_SIZE];
+char array[ARRAY_SIZE];
 
 int read_player_input(int player);
 void initialize_array();
 void print_game();
 char *symbol(int symbol, int row, int keynumber);
 int check_who_won();
-void print_screen_without_userinput_line();
+void print_screen_without_user_input_line();
 
 int main()
 {
-    int x, y, z;
-    y = 1;
-    z = 0;
+    int player_input = 0, continue_loop = TRUE, player_won = 0;
     initialize_array();
 
-    while (z == 0)
+    while (player_won == 0)
     {
-        print_screen_without_userinput_line();
+        print_screen_without_user_input_line();
     
-        while(y == 1) {
-            x = read_player_input(1);
-            if (x != INVALID_INPUT && x != BUFFER_ERROR) {
-                array[x] = 'X';
-                x = 0;
-                y = 0;
+        while(continue_loop == TRUE) {
+            player_input = read_player_input(1);
+            if (player_input != INVALID_INPUT && player_input != BUFFER_ERROR && array[player_input] == ' ') {
+                array[player_input] = 'X';
+                player_input = 0;
+                continue_loop = FALSE;
             }
-            print_screen_without_userinput_line();
+            print_screen_without_user_input_line();
         }
-        y = 1;
-        z = check_who_won();
-        if (z != 0) {
+        continue_loop = TRUE;
+        player_won = check_who_won();
+        if (player_won != 0) {
             continue;
         }
         
-        print_screen_without_userinput_line();
-        while(y == 1) {
-            x = read_player_input(2);
-            if (x != INVALID_INPUT && x != BUFFER_ERROR) {
-                array[x] = 'O';
-                x = 0;
-                y = 0;
+        print_screen_without_user_input_line();
+        while(continue_loop == TRUE) {
+            player_input = read_player_input(2);
+            if (player_input != INVALID_INPUT && player_input != BUFFER_ERROR && array[player_input] == ' ') {
+                array[player_input] = 'O';
+                player_input = 0;
+                continue_loop = FALSE;
             }
-            print_screen_without_userinput_line();
+            print_screen_without_user_input_line();
         }
-        y = 1;
-        z = check_who_won();
-        if (z != 0) {
+        continue_loop = TRUE;
+        player_won = check_who_won();
+        if (player_won != 0) {
             continue;
         }        
     }
 
-    if (z == 1) {
-        print_screen_without_userinput_line();
+    print_screen_without_user_input_line();
+    if (check_who_won() == 1) {
         printf("\nPlayer 1 (\"X\") won!\nPress \"Enter\" to exit.");
-    } else if (z == 2) {
-        print_screen_without_userinput_line();
+    } else {
         printf("\nPlayer 2 (\"O\") won!\nPress \"Enter\" to exit.");
     }
+
     getchar();
     getchar();
 
@@ -148,7 +148,7 @@ void print_game()
     printf("\t      | | | |  | |  __|           \t\t %s | %s | %s \n", symbol(array[6], 2, 1), symbol(array[7], 2, 2), symbol(array[8], 2, 3));
     printf("\t      | | | |__| | |____          \t\t %s | %s | %s \n", symbol(array[6], 3, 1), symbol(array[7], 3, 2), symbol(array[8], 3, 3));
     printf("\t      |_|  \\____/|______|         \t\t %s | %s | %s \n", symbol(array[6], 4, 1), symbol(array[7], 4, 2), symbol(array[8], 4, 3));
-    printf("\t             by alpha-kappa-de    \t\t %s | %s | %s \n", symbol(array[6], 5, 1), symbol(array[7], 5, 2), symbol(array[8], 5, 3));
+    printf("\t             by alpha-kappa       \t\t %s | %s | %s \n", symbol(array[6], 5, 1), symbol(array[7], 5, 2), symbol(array[8], 5, 3));
     printf("\t                                  \t\t       |       |       \n");
 }
 
@@ -248,7 +248,7 @@ int check_who_won()
     return 0;
 }
 
-void print_screen_without_userinput_line()
+void print_screen_without_user_input_line()
 {
     system("cls");
     print_game();
